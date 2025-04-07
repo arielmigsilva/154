@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Você me ama?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Montserrat+Alternates:wght@600&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+      font-family: 'Montserrat', sans-serif;
+      overflow-x: hidden;
+    }
+
+    body {
+      background: url('sua-imagem.jpg') no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+      color: white;
+    }
+
+    /* camada roxa transparente sobre toda a tela */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(106, 13, 173, 0.6);
+      /* roxo transparente bonito */
+      z-index: 0;
+    }
+
+    body>* {
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn {
+      background-color: #ff69b4;
+      border: none;
+      padding: 15px 30px;
+      margin: 10px;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      color: white;
+      transition: 0.3s ease;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      background-color: #ff85c1;
+    }
+
+    .heart {
+      width: 100px;
+      height: 90px;
+      background-color: red;
+      position: relative;
+      transform: rotate(-45deg);
+      animation: pulse 1s infinite;
+      margin: 60px 0;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      width: 100px;
+      height: 90px;
+      background-color: red;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .heart::before {
+      top: -50px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 50px;
+      top: 0;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1) rotate(-45deg);
+      }
+
+      50% {
+        transform: scale(1.2) rotate(-45deg);
+      }
+
+      100% {
+        transform: scale(1) rotate(-45deg);
+      }
+    }
+
+    #mainPage,
+    #finalPage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    #finalPage {
+      display: none;
+    }
+
+    img {
+      width: 200px;
+      height: auto;
+      border-radius: 20px;
+      margin: 10px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+
+    audio {
+      margin-top: 30px;
+      width: 90%;
+      max-width: 400px;
+      border: none;
+      outline: none;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 10px;
+    }
+
+    #message {
+      margin-top: 10px;
+      font-size: 18px;
+      color: #fffacd;
+    }
+
+    p {
+      font-family: 'Great Vibes', cursive;
+      font-size: 24px;
+      line-height: 1.6;
+      margin-top: 30px;
+      padding: 0 10px;
+    }
+
+    h1,
+    h2 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 40px;
+      margin-bottom: 20px;
+    }
+
+    .custom-player {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      margin-top: 30px;
+      flex-wrap: wrap;
+      max-width: 600px;
+      width: 90%;
+    }
+
+    .custom-player .cover {
+      width: 150px;
+      height: 150px;
+      border-radius: 20px;
+      object-fit: cover;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+    }
+
+    .custom-player .info {
+      flex: 1;
+      color: #fff;
+      font-size: 16px;
+    }
+
+    .custom-player .controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .custom-player button {
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .custom-player input[type="range"] {
+      width: 150px;
+    }
+
+    .btn-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    .custom-player input[type="range"] {
+      -webkit-appearance: none;
+      width: 150px;
+      background: transparent;
+    }
+
+    .custom-player input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 16px;
+      width: 16px;
+      border-radius: 50%;
+      background: white;
+      cursor: pointer;
+      margin-top: -6px;
+      box-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+    }
+
+    .custom-player input[type="range"]::-webkit-slider-runnable-track {
+      height: 4px;
+      background: white;
+      border-radius: 2px;
+    }
+
+    .custom-player input[type="range"]::-moz-range-thumb {
+      height: 16px;
+      width: 16px;
+      border-radius: 50%;
+      background: white;
+      cursor: pointer;
+      box-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+    }
+
+    .custom-player input[type="range"]::-moz-range-track {
+      height: 4px;
+      background: white;
+      border-radius: 2px;
+    }
+
+    .custom-player input[type="range"]::-ms-thumb {
+      height: 16px;
+      width: 16px;
+      border-radius: 50%;
+      background: white;
+      cursor: pointer;
+    }
+
+    .custom-player input[type="range"]::-ms-track {
+      height: 4px;
+      background: transparent;
+      border-color: transparent;
+      color: transparent;
+    }
+
+    .custom-player input[type="range"]::-ms-fill-lower,
+    .custom-player input[type="range"]::-ms-fill-upper {
+      background: white;
+      border-radius: 2px;
+    }
+
+    .controls{
+      margin-left: 60px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="mainPage">
+    <h1>Você me ama?</h1>
+    <button id="yesBtn" class="btn">Sim</button>
+    <button id="noBtn" class="btn">Não</button>
+    <div id="message"></div>
+  </div>
+
+  <div id="finalPage">
+    <div class="heart"></div>
+    <h2>Meu Ursinho de Goma Veimeio...</h2>
+    <p>
+      Hoje faz 1 ano e 6 meses que você aceitou namorar comigo. Eu nunca vou esquecer aquele dia em que você aceitou ser
+      minha namorada. A gente nem se conhecia direito, e mesmo assim parecia que a gente tinha sido feito um pro outro.
+      Você levou dois pirulitos, eu levei duas alianças. Elas eram da Shoppe, mas isso não importa kkkkk. Elas ficavam
+      caindo, mas mesmo assim a gente usou por muito tempo…<br><br>
+      Seu sorriso é meu abrigo. Quando estou com você, me sinto inteiro. Cada momento ao seu lado é inesquecível, é como
+      sempre abrir uma Pringles naqueles momentos de fome, como comer um Milka como se fosse a primeira vez, como jogar
+      Red Dead Redemption 2 kkkkkkk, eu só tento comparar, mas estar com você é melhor do que todas essas coisas juntas.
+      <br><br> Quando estou com você, esqueço os problemas, porque você trás clareza em meio ao caos, é o apoio quando
+      eu me sinto fraco e choro, é a força que me levanta nos momentos difíceis, em alguns momentos você se estressa
+      comigo, e eu fico triste por que sou sentimenal, mas eu entendo que é seu jeitinho e estou me aprendendo isso aos
+      poucos, eu só quero crescer com vc a cada dia mais e mais.<br><br>
+      Tudo o que eu mais quero é continuar construindo a nossa história e ter um dia uma família linda com você, aos
+      poucos, um pouquindo de Hey, Hay, Vooooolvo, Iveco, Pequena julgadora, a gente só ama Deus, gosta dele, gosta
+      dele, olha como é ispeito, ispeito, olha como fica no colo kkkkkkkkkkk, eu te amo coisa fofa.<br><br>
+      Você é a minha luz. E eu quero que essa luz sempre brilhe comigo.<br><br>
+      <strong>Eu te amo. Infinitamente. Pra sempre.</strong>
+    </p>
+    <div style="margin-top: 20px;">
+      <img src="foto1.jpg" alt="Foto 1">
+      <img src="foto2.jpg" alt="Foto 2">
+      <img src="foto3.jpg" alt="Foto 3">
+    </div>
+    <div class="custom-player">
+      <img src="capa.PNG" alt="Capa da música" class="cover">
+      <div class="info">
+        <h3>Essa música é pra você ❤</h3>
+        <p>Da vez que dançamos essa pedrada no seu quarto</p>
+        <audio id="loveSong" autoplay loop>
+          <source src="audio.mp3" type="audio/mpeg">
+          Seu navegador não suporta áudio :(
+        </audio>
+        <div class="controls">
+          <button id="playPauseBtn"><img src="pause.png" alt="Pause" class="btn-icon"></button>
+          <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1">
+        </div>
+      </div>
+    </div>
+    <button class="btn" onclick="location.reload()">Voltar ao início</button>
+  </div>
+
+  <script>
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const mainPage = document.getElementById("mainPage");
+    const finalPage = document.getElementById("finalPage");
+    const message = document.getElementById("message");
+    const loveSong = document.getElementById("loveSong");
+
+    let clickCount = 0;
+
+    yesBtn.addEventListener("click", () => {
+      clickCount++;
+      if (clickCount < 7) {
+        const remaining = 7 - clickCount;
+        message.innerText = `Faltam ${remaining} tentativa(s) para funcionar.`;
+      } else {
+        mainPage.style.display = "none";
+        finalPage.style.display = "flex";
+        loveSong.play();
+      }
+    });
+
+    noBtn.addEventListener("mouseover", () => {
+      const x = Math.random() * (window.innerWidth - 150);
+      const y = Math.random() * (window.innerHeight - 50);
+      noBtn.style.position = "absolute";
+      noBtn.style.left = `${x}px`;
+      noBtn.style.top = `${y}px`;
+    });
+
+    const playPauseBtn = document.getElementById("playPauseBtn");
+    const volumeControl = document.getElementById("volumeControl");
+
+    playPauseBtn.addEventListener("click", () => {
+      if (loveSong.paused) {
+        loveSong.play();
+        playPauseBtn.innerHTML = '<img src="pause.png" alt="Pause" class="btn-icon">';
+      } else {
+        loveSong.pause();
+        playPauseBtn.innerHTML = '<img src="play.png" alt="Play" class="btn-icon">';
+      }
+    });
+
+    volumeControl.addEventListener("input", () => {
+      loveSong.volume = volumeControl.value;
+    });
+  </script>
+
+
+  </script>
+</body>
+
+</html>
